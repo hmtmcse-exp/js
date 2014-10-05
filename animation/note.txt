@@ -1,0 +1,27 @@
+Syntax
+-----------
+.animate( properties [, duration ] [, easing ] [, complete ] ) OR .animate( properties, options )
+
+# Properties    : An object of CSS properties and values that the animation will move toward.
+# Duration      : A string or number determining how long the animation will run.
+# Easing        : A string indicating which easing function to use for the transition.
+# Complete      : A function to call once the animation is complete.
+# Option        : A map of additional options to pass to the method.
+
+# Example 1:
+jQuery( "#clickme" ).click(function() {
+  jQuery( "#book" ).animate({
+    opacity: 0.25,
+    left: "+=50",
+    height: "toggle"
+  }, 5000, function() {
+    // Animation complete.
+  });
+});
+
+
+
+
+
+
+
