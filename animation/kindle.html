@@ -11,13 +11,9 @@
         }
 
         .book-contents {
-            -webkit-columns: 310px;
-            -moz-columns: 310px;
-            columns: 310px;
             -webkit-column-gap: 10px;
             -moz-column-gap: 10px;
             column-gap: 10px;
-            height: 300px;
             position: relative;
             -webkit-column-rule-color: #ff0000; /* Chrome, Safari, Opera */
             -moz-column-rule-color: #ff0000; /* Firefox */
@@ -25,25 +21,57 @@
             -moz-column-rule-style: outset;
             -webkit-column-rule-style: outset;
             column-rule-style: outset;
-            width: 310px;
             margin: 5px;
         }
+        .ui-loader{
+            display: none;
+        }
     </style>
+    <script>
+
+        var  documentWidth, numberOfColumn, windowWidth;
+
+        function countCols(){
+            documentWidth = jQuery(".book-contents-width").width();
+            numberOfColumn = Math.floor(documentWidth / windowWidth);
+        }
+
+        jQuery( document ).ready(function(){
+            windowWidth = jQuery(window).width();
+            var bookContents = jQuery(".book-contents"),
+                    windowHeight = jQuery(window).height(),
+                    bookContainerWidth = windowWidth - 10,
+                    bookContainerHeight = windowHeight - 10,
+                    initPoint  = 0;
+            bookContents.css(
+                    {
+                        "-webkit-columns":bookContainerWidth,
+                        "-moz-columns":bookContainerWidth,
+                        "columns":bookContainerWidth,
+                        "height":bookContainerHeight,
+                        "width":bookContainerWidth
+                    }
+            );
+
+            bookContents.on("swipeleft",function(){
+                countCols();
+                if(initPoint < numberOfColumn){
+                    jQuery(this).animate({ "left": "-=" + windowWidth +"px" }, "first" );
+                    initPoint++;
+                }
+            });
+            bookContents.on("swiperight",function(){
+                if(initPoint != 0){
+                    jQuery(this).animate({ "left": "+=" + windowWidth +"px" }, "first" );
+                    initPoint--;
+                }
+            });
+        })
+    </script>
 </head>
 <body>
-<script>
-jQuery(function(){
-    jQuery(".book-contents").on("swipeleft",function(){
-        jQuery(this).animate({ "left": "-=320px" }, "first" );
-    });
-
-    jQuery(".book-contents").on("swiperight",function(){
-        jQuery(this).animate({ "left": "+=320px" }, "first" );
-    });
-})
-</script>
-
 <div class="book-contents">
+<div class="book-contents-width">
 Pork loin ball tip short ribs pork belly t-bone, short loin meatball kielbasa beef ribs tri-tip biltong beef ground
 round. Pork chop brisket jerky meatloaf. Strip steak short ribs tri-tip short loin pork loin. Turkey pastrami
 frankfurter, jerky hamburger short loin swine beef bacon chuck ham kielbasa biltong. Swine pork loin turkey
@@ -604,5 +632,8 @@ shoulder tri-tip. Flank strip steak turducken, venison meatball fatback jerky fr
 pancetta ham hock t-bone. Salami turkey jerky capicola. <a href="#">Salami turkey jerky capicola.<span>foooo</span></a>
 </div>
 
-</body>
+
+
+</div></body>
 </html>
+
